@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://mdcujdnkj5y"]
+
+[ext_resource type="PackedScene" uid="uid://c4chiahudpu61" path="res://plantas.blend" id="1_0lky3"]
+[ext_resource type="Script" uid="uid://cl67r711xnyof" path="res://plantação.gd" id="2_6qjqp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dqkpi"]
+size = Vector3(5.885666, 3.0498047, 2.6158447)
+
+[node name="plantas" unique_id=334958124 instance=ExtResource("1_0lky3")]
+
+[node name="Area3D" type="Area3D" parent="." index="0" unique_id=2119386441]
+script = ExtResource("2_6qjqp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0" unique_id=2049947129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7116165, 0.5776367, 0.06707764)
+shape = SubResource("BoxShape3D_dqkpi")

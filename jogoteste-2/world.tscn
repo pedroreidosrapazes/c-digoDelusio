@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://hppemxkv67b0"]
+
+[ext_resource type="Script" uid="uid://cjeqg6rsyng5m" path="res://game_manager.gd" id="1_tlwt5"]
+[ext_resource type="Script" uid="uid://de6sobxl48ocn" path="res://character_body_3d.gd" id="2_fj7yv"]
+[ext_resource type="Script" uid="uid://bdm8v44j64tqk" path="res://caixade_vendas.gd" id="4_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://da6yqyfcnwxwm" path="res://cenario.blend" id="5_036b0"]
+[ext_resource type="PackedScene" uid="uid://mdcujdnkj5y" path="res://plantas.tscn" id="5_dwbse"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_me6pa"]
+rayleigh_coefficient = 2.4
+turbidity = 14.5
+sun_disk_scale = 0.0
+
+[sub_resource type="Sky" id="Sky_f3sb7"]
+sky_material = SubResource("PhysicalSkyMaterial_me6pa")
+
+[sub_resource type="Environment" id="Environment_dqkpi"]
+background_mode = 2
+background_energy_multiplier = 2.15
+sky = SubResource("Sky_f3sb7")
+sky_custom_fov = 54.7
+ambient_light_source = 3
+ambient_light_color = Color(0.091665424, 0.09012585, 0.085508995, 1)
+ambient_light_sky_contribution = 0.23
+ambient_light_energy = 1.26
+fog_enabled = true
+fog_light_color = Color(0.35191908, 0.38279963, 0.43132347, 1)
+fog_light_energy = 0.4
+fog_sky_affect = 0.56
+fog_height = -913.98
+fog_height_density = 0.0572
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+volumetric_fog_albedo = Color(0.42903125, 0.42903125, 0.42903125, 1)
+volumetric_fog_emission = Color(0.14622876, 0.14622876, 0.14622873, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fj7yv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pkwtx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q8dgc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qafjs"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_dqkpi"]
+transform_format = 1
+
+[node name="world" type="Node3D" unique_id=2086478416]
+
+[node name="GameManager" type="Node" parent="." unique_id=385933682]
+script = ExtResource("1_tlwt5")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2021247683]
+environment = SubResource("Environment_dqkpi")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=493715191]
+transform = Transform3D(2.484649, 0, 0, 0, 2.0578396, 0, 0, 0, 2.7990398, 0, 0, 0)
+script = ExtResource("2_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=35051911]
+transform = Transform3D(1, 0, 0, 0, 2.0627148, 0, 0, 0, 1, 0, 2.3548653, 0)
+mesh = SubResource("CapsuleMesh_fj7yv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1585412015]
+transform = Transform3D(1.6435142, 0, 0, 0, 2.16, 0, 0, 0, 1.091418, 0, 1.829, 0)
+shape = SubResource("BoxShape3D_pkwtx")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=1295610656]
+transform = Transform3D(1.0173135, -0.01013889, -0.048994552, 0.0258231, 0.5234529, 0.7747654, 0.015340578, -0.20877616, 1.9449056, -0.0022410154, 2.514286, -0.61575127)
+
+[node name="RayCast3D" type="RayCast3D" parent="CharacterBody3D/Camera3D" unique_id=1040168427]
+transform = Transform3D(1, 4.656613e-10, 1.8626451e-09, 4.656613e-09, 1, 5.9604645e-08, -1.8626451e-09, 0, 1, 0.007277604, -0.17884111, 0.44842368)
+target_position = Vector3(0, 0, -3)
+
+[node name="CaixadeVendas" type="StaticBody3D" parent="." unique_id=642363495]
+transform = Transform3D(1, 0, 0, 0, 2.0674915, 0, 0, 0, 1, 0, -1.1909833, 7.087492)
+script = ExtResource("4_aqk2v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CaixadeVendas" unique_id=482768068]
+shape = SubResource("BoxShape3D_q8dgc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CaixadeVendas" unique_id=807371304]
+mesh = SubResource("BoxMesh_qafjs")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=741299430]
+
+[node name="Control" type="Control" parent="HUD" unique_id=779318929]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 133.0
+offset_top = 102.0
+offset_right = 379.0
+offset_bottom = 232.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Control" unique_id=1836480490]
+layout_mode = 0
+offset_left = -88.0
+offset_top = -67.0
+offset_right = 23.0
+offset_bottom = -17.0
+
+[node name="labelDinheiro" type="Label" parent="HUD/Control/VBoxContainer" unique_id=877024688 groups=["label_dinheiro"]]
+layout_mode = 2
+
+[node name="labelTrigo" type="Label" parent="HUD/Control/VBoxContainer" unique_id=1955029085 groups=["label_trigo"]]
+layout_mode = 2
+
+[node name="Sol" type="DirectionalLight3D" parent="." unique_id=1902002315]
+transform = Transform3D(1, 0, 0, 0, -0.4919197, 0.99179506, 0, -0.66476357, -0.7339204, -5.5723724, 24.622622, 0)
+light_color = Color(0.8576074, 0.61688036, 0.3388789, 1)
+light_energy = 1.105
+light_indirect_energy = 0.0
+
+[node name="plantas" parent="." unique_id=334958124 instance=ExtResource("5_dwbse")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.33169, 1.092763, 3.3425674)
+
+[node name="cenario" parent="." unique_id=1130191495 instance=ExtResource("5_036b0")]
+transform = Transform3D(14.585, 0, 0, 0, 14.585, 0, 0, 0, 14.585, 10.376436, 0, -1.1418953)
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="." unique_id=750877820]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0250406, 0)
+multimesh = SubResource("MultiMesh_dqkpi")
