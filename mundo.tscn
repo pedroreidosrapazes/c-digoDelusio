@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://cu5e3hu3l2w02"]
+
+[sub_resource type="GDScript" id="GDScript_35478"]
+script/source = "extends CharacterBody3D
+
+
+const SPEED = 5.0
+const JUMP_VELOCITY = 4.5
+
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var input_dir := Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")
+	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	if direction:
+		velocity.x = direction.x * SPEED
+		velocity.z = direction.z * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.z = move_toward(velocity.z, 0, SPEED)
+
+	move_and_slide()
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xwo6f"]
+radius = 0.22277832
+height = 0.44555664
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_dqkpi"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_35478"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_xwo6f"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[node name="mundo" type="Node3D" unique_id=1133116470]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2069772998]
+transform = Transform3D(1, 0, 0, 0, 0.8084513, 0.5885631, 0, -0.5885631, 0.8084513, -0.20313978, 1.0002046, 2.8952355)
+current = true
+
+[node name="player" type="CharacterBody3D" parent="." unique_id=1775811614]
+script = SubResource("GDScript_35478")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player" unique_id=2102463386]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39074707, 0)
+shape = SubResource("CapsuleShape3D_xwo6f")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="player" unique_id=357572182]
+transform = Transform3D(-0.24962302, 0, 0, 0, 0.24728923, 0, 0, 0, 0.24991645, 0, 0.37776148, 0)
+mesh = SubResource("CapsuleMesh_dqkpi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1618695017]
+transform = Transform3D(1, 0, 0, 0, 0.006125033, 0.9999812, 0, -0.9999812, 0.006125033, 0, 1.8881197, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1567385558]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1758681785]
+mesh = SubResource("PlaneMesh_35478")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1480941861]
+shape = SubResource("ConcavePolygonShape3D_xwo6f")
